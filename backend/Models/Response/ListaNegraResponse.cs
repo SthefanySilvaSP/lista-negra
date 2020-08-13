@@ -8,6 +8,5 @@ namespace backend.Models.Response
         public string Nome { get; set; }
         public string Motivo { get; set; }
         public DateTime? DataInclusao { get; set; } 
-        
     }
 }
