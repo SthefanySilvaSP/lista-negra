@@ -54,7 +54,7 @@ export default function Consultar() {
                                 <th>#{item.id}</th>
                                 <td>{item.nome}</td>
                                 <td>{item.motivo}</td>
-                                <td> { new Date(item.dataInclusao + 'Z').toLocaleDateString() }</td>
+                                <td> { new Date(item.dataInclusao + 'Z').toLocaleString() }</td>
                             </tr>    
                         )}
                     </tbody>
