@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'https://lista-negra.vercel.app/'
+    baseURL: 'http://localhost:5000'
 }); 
 
 export default class ListaNegraAPI {
@@ -14,5 +14,9 @@ export default class ListaNegraAPI {
     async consultar() {
         const resp = await api.get('/ListaNegra');
         return resp.data;
+    }
+
+    async excluir(id) {
+        const resp = await api.delete('/ListaNegra/' + id);
     }
 }

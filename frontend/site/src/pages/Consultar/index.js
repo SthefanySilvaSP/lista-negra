@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import LoadingBar from 'react-top-loading-bar';
 import './Consultar.css';
 
-import ListaNegraApi from '../../services/ListaNegraAPI'
 import ListaNegraAPI from '../../services/ListaNegraAPI';
 const api = new ListaNegraAPI();
 
@@ -45,6 +45,7 @@ export default function Consultar() {
                             <th>Nome</th>
                             <th>Motivo</th>
                             <th>Inclusão</th>
+                            <th></th>
                         </tr>
                     </thead>
 
@@ -54,9 +55,16 @@ export default function Consultar() {
                                 <th>#{item.id}</th>
                                 <td>{item.nome}</td>
                                 <td>{item.motivo}</td>
-                                <td> { new Date(item.dataInclusao + 'Z').toLocaleString() }</td>
-                            </tr>    
-                        )}
+                                <td> { new Date(item.dataInclusao).toLocaleDateString() }</td>
+                                <td>
+                                    <Link to={{
+                                        pathname: "/excluir",
+                                        state: item
+                                    }} className="btn btn-danger">
+                                            Excluir
+                                    </Link>
+                                </td>
+                            </tr>)}
                     </tbody>
                 </table>
             </div>
