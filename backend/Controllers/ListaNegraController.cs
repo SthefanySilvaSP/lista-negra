@@ -11,6 +11,7 @@ namespace backend.Controllers
     {
         Utils.ListaNegraConverter conversor = new Utils.ListaNegraConverter();
         Business.ListaNegraBusiness business = new Business.ListaNegraBusiness();
+        Business.GerenciadorFoto gerenciadorFoto = new Business.GerenciadorFoto();
 
 
         [HttpPost]
@@ -19,14 +20,17 @@ namespace backend.Controllers
             try
             {
                 Models.TbListaNegra tb = conversor.ToTable(req);
-                business.Inserir(tb);
+                tb.DsFoto = gerenciadorFoto.GerarNovoNome(req.Foto.FileName);
 
+                business.Inserir(tb);
+                gerenciadorFoto.SalvarFoto(tb.DsFoto, req.Foto);
+                
                 return conversor.ToResponse(tb);
 
             }
             catch (Exception ex)
             {
-                return BadRequest(new Models.ErrorResponse(400, ex));
+                return BadRequest(new Models.Response.ErrorResponse(400, ex));
             }
         }
 
@@ -46,9 +50,45 @@ namespace backend.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest (new Models.ErrorResponse(500, ex));
+                return BadRequest (new Models.Response.ErrorResponse(500, ex));
 
             }
         }
+
+        [HttpGet("foto/{nome}")]
+        public ActionResult BuscarFoto (string nome)
+        {
+            try 
+            {
+                byte[] foto = gerenciadorFoto.LerFoto(nome);
+                string contentType = gerenciadorFoto.GerarContentType(nome);
+
+                return File(foto, contentType);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest (new Models.Response.ErrorResponse(500, ex));
+
+            }
+        } 
+
+        [HttpDelete("{id}")]
+        
+        public ActionResult<Models.Response.ListaNegraResponse> Alterar (int id, Models.Request.ListaNegraRequest req)
+        {
+            try 
+            {
+                Models.TbListaNegra tb =  conversor.ToTable(req);
+
+                Models.TbListaNegra tbAlterado = business.Alterar(id, tb);
+
+                return conversor.ToResponse(tbAlterado);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest (new Models.Response.ErrorResponse(500, ex));
+            }
+        }
+
     }
 }

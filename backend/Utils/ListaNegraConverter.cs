@@ -12,6 +12,7 @@ namespace backend.Utils
 
             tb.NmPessoa = req.Nome;
             tb.DsMotivo = req.Motivo;
+            tb.DsLocal = req.Local;
             tb.DtInclusao = DateTime.Now;
         
             return tb;
@@ -24,7 +25,9 @@ namespace backend.Utils
             resp.ID = tb.IdListaNegra;
             resp.Nome = tb.NmPessoa;
             resp.Motivo = tb.DsMotivo;
+            resp.Local = tb.DsLocal;
             resp.DataInclusao = tb.DtInclusao;
+            resp.Foto = tb.DsFoto;
 
             return resp;
         } 
@@ -37,7 +40,10 @@ namespace backend.Utils
                     ID = x.IdListaNegra,
                     Nome = x.NmPessoa,
                     Motivo = x.DsMotivo,
-                    DataInclusao = x.DtInclusao
+                    Local = x.DsLocal,
+                    DataInclusao = x.DtInclusao,
+                    Foto = x.DsFoto
+
                 }).ToList();
 
             return lista;
